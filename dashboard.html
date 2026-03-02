@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>All Weather AI</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            background: #0f172a;
+            color: white;
+            font-family: Arial;
+            text-align: center;
+        }
+        .card {
+            background: #1e293b;
+            padding: 20px;
+            margin: 20px;
+            border-radius: 15px;
+        }
+        canvas {
+            max-width: 300px;
+            margin: auto;
+        }
+        table {
+            margin: auto;
+            color: white;
+        }
+        th, td {
+            padding: 8px 15px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>🌎 All Weather AI Portfolio</h1>
+
+<div class="card">
+    <h2>Allocation</h2>
+    <canvas id="pieChart"></canvas>
+</div>
+
+<div class="card">
+    <h2>Scores</h2>
+    <table border="1">
+        <tr>
+            <th>Asset</th>
+            <th>Score</th>
+        </tr>
+        {% for asset, score in scores.items() %}
+        <tr>
+            <td>{{ asset }}</td>
+            <td>{{ "%.3f"|format(score) }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+<script>
+    const allocation = {{ allocation | tojson }};
+    const ctx = document.getElementById('pieChart').getContext('2d');
+
+    new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: Object.keys(allocation),
+            datasets: [{
+                data: Object.values(allocation),
+                backgroundColor: [
+                    '#3b82f6',
+                    '#facc15',
+                    '#10b981',
+                    '#ef4444'
+                ]
+            }]
+        }
+    });
+</script>
+
+</body>
+</html>

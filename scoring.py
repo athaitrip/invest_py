@@ -6,10 +6,11 @@ def score_asset(symbol):
     mom = momentum_agent(symbol)
     vol = volatility_agent(symbol)
 
-    # Hedge fund style:
-    # reward momentum
-    # penalize high vol
-    score = (mom * 100) - (vol * 50)
+    if vol == 0:
+        vol = 0.0001
+
+    # Risk adjusted return (Sharpe proxy)
+    score = mom / vol
     return score
 
 def compute_scores():
